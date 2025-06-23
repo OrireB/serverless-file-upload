@@ -181,12 +181,12 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 ### 🔹 Step 8: Create and Host HTML Viewer (Optional but Recommended)
 > This web page makes it easy to view metadata without using Postman or the browser console.
 
-##Create HTML File
+## Create HTML File
 - Save the code below as file-metadata.html in your VS Code or text editor:
 
 ---
 
-##Upload and Host HTML in S3
+## Upload and Host HTML in S3
 1. Upload the file-metadata.html to your success-guaranteed bucket
 2. Enable Static Website Hosting under bucket Properties
 3. Set:
@@ -196,7 +196,7 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 
 ---
 
-###🧪 Expected Output
+### 🧪 Expected Output
 - If all is configured correctly:
 - Now,
 - Test the Full URL in the Browser
@@ -219,7 +219,7 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 
 ---
 
-###🧹 Cleanup Checklist (Avoid Unexpected Charges)
+### 🧹 Cleanup Checklist (Avoid Unexpected Charges)
 1. 🗑 Delete S3 Bucket (after emptying it)
 2. 🗑 Delete both Lambda functions
 3. 🗑 Delete DynamoDB table FileMetadata
@@ -229,5 +229,5 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 
 ---
 
-###✅ Final Tip
-Always double-check your AWS Billing Dashboard to ensure no lingering services are active that may incur charges.
+### ✅ Final Tip
+Always double-check your **AWS Billing Dashboard** to ensure no lingering services are active that may incur charges.
