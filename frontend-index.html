@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>File Metadata Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+      <h1 class="text-2xl font-bold mb-4">Uploaded Files</h1>
+      <button onclick="render()" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">🔄 Refresh</button>
+      <ul id="fileList" class="space-y-2 text-sm"></ul>
+    </div>
+
+    <script>
+      const API_URL = 'https://u2shohuema.execute-api.us-east-1.amazonaws.com/prod/metadata';
+
+      const formatDate = ts => new Date(ts).toLocaleString();
+
+      async function render() {
+        const fileList = document.getElementById('fileList');
+
+        try {
+          const res = await fetch(API_URL);
+          if (!res.ok) throw new Error('Failed to fetch data');
+
+          const data = await res.json();
+
+          fileList.innerHTML = data.length
+            ? data.map(f => `<li>📄 ${f.filename} — ${formatDate(f.timestamp)}</li>`).join('')
+            : '<li>No uploaded files found.</li>';
+        } catch (err) {
+          fileList.innerHTML = `<li class="text-red-500">Error: ${err.message}</li>`;
+        }
+      }
+
+      render();
+    </script>
+  </body>
+</html>
