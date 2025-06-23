@@ -47,9 +47,11 @@ You'll create:
 3. Leave default settings
 4. Click **Create Bucket**
 
+The project follows official [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for working with AWS services in Python.
+
 **Or create via code:**
 
-[create_s3_bucket.py](https://github.com/OrireB/serverless-file-upload/commit/72346e7604f417096312fa3238fc8597df41d6ba#diff-5ff7df0666e13dc29b7602c447b4fcb4ce476ba1537778e5153d80a8f277b799) for working with AWS services in Python.
+[create_s3_bucket.py](https://github.com/OrireB/serverless-file-upload/commit/72346e7604f417096312fa3238fc8597df41d6ba#diff-5ff7df0666e13dc29b7602c447b4fcb4ce476ba1537778e5153d80a8f277b799)
 
 ---
 
@@ -59,11 +61,10 @@ You'll create:
 1. Go to AWS Console → DynamoDB → Tables → Create Table
 2. Table Name: FileMetadata
 3. Partition Key:
-Name: id
-Type: String
+   - Name: id
+   - Type: String
 4. Capacity Mode: On-Demand
-5. Advanced Settings:
-No changes needed for default access settings unless you’re restricting access.
+5. Advanced Settings:No changes needed for default access settings unless you’re restricting access.
 6. Click Create Table
 
 ---
@@ -73,43 +74,22 @@ No changes needed for default access settings unless you’re restricting access
 
 1. Go to AWS Console → Lambda → Create Function
 2. Choose: **Author from scratch**
-3. Function name: MyStoreFileMetadata
-4. Runtime: Python 3.13
-5. Architecture: x86_64
+3. Function name: **MyStoreFileMetadata**
+4. Runtime: **Python 3.13**
+5. Architecture: **x86_64**
 6. Permissions: **Create a new role with basic Lambda permissions**
 7. Click “Create Function”
 7. Replace the default code with:
-
-import boto3
-import json
-from datetime import datetime
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('FileMetadata')
-
-def lambda_handler(event, context):
-    for record in event['Records']:
-        filename = record['s3']['object']['key']
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        table.put_item(Item={
-            'id': filename,
-            'filename': filename,
-            'timestamp': timestamp
-        })
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Metadata stored successfully.')
-    }
-
+[store_metadata.py](https://github.com/OrireB/serverless-file-upload/commit/9ca0e7e108f0b13fb82168a31284cc49e727704a#diff-b5f8facaa044506a75905c36e30a8e24c93ae52c19520fcb59443ee88d0a0ee3)
 8. Click **Deploy**
 
-This will add DynamoDB Read Permissions
+> This will add DynamoDB Read Permissions
 1. Go to: AWS Console → IAM → Roles
 2. Find the IAM role created for MyStoreFileMetadata
 3. Click the role → Add permissions → Attach policies
 4. Search and attach:
-* AmazonDynamoDBReadOnlyAccess (for simplicity, or create a custom policy later)
-* You can replace this with a more restricted policy if needed, but for the project full access is fine.
+   - AmazonDynamoDBReadOnlyAccess (for simplicity, or create a custom policy later)
+   - You can replace this with a more restricted policy if needed, but for the project full access is fine.
 
 ---
 
@@ -119,9 +99,9 @@ This will add DynamoDB Read Permissions
 1. Go to: AWS Console → Lambda → Function
 2. Click the **“+ Add trigger”** button.
 3. Choose:
-* Trigger configuration: Select S3
-* Bucket: **Select success-guaranteed**
-* Event type: Choose **PUT** (this means: when a file is uploaded)
+   - Trigger configuration: Select S3
+   - Bucket: **Select success-guaranteed**
+   - Event type: Choose **PUT** (this means: when a file is uploaded)
 3. Recursive invocation: Check the confirmation box
 4. Click **Add**
 
@@ -140,26 +120,7 @@ The goal:
 6. Permissions: **Create a new role with basic Lambda permissions**
 7. Click “Create Function”
 7. Replace the default code with:
-
-import boto3
-import json
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('FileMetadata')
-
-def lambda_handler(event, context):
-    try:
-        response = table.scan()
-        return {
-            'statusCode': 200,
-            'body': json.dumps(response['Items'])
-        }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps(str(e))
-        }
-
+[get_metadata.py](https://github.com/OrireB/serverless-file-upload/commit/e66adc27db69682fc6459417167a81965f9bbbba#diff-c559ecb1413fe3931778f8c5d914925ad738426c88134a81372bc1cc7ad80480)
 8. Click **Deploy**
 9. Go to **IAM** > **Roles** → find this Lambda’s role → **Add policy**: AmazonDynamoDBReadOnlyAccess
 
@@ -177,30 +138,30 @@ def lambda_handler(event, context):
 
 ## Add Resource and Method
 1. Under /, click Actions → Create Resource
-Resource Name: metadata
-Resource Path: /metadata (auto-filled)
-CORS (Cross Origin Resource Sharing) Info → Click ✅ checkmark
+   - Resource Name: metadata
+   - Resource Path: /metadata (auto-filled)
+   - CORS (Cross Origin Resource Sharing) Info → Click ✅ checkmark
 Click **Create Resource**
 
 ## Create a GET Method
 2. Select /metadata → Actions → Create Method
-Choose GET from the dropdown → Click ✅ checkmark
-* Configure the method:
-     ** Integration type: Lambda Function
-     ** Use Lambda Proxy integration: ✅ checked
-     ** Lambda Function Name: GetFileMetadata
-* Click **Save**
+- Choose GET from the dropdown → Click ✅ checkmark
+- Configure the method:
+  - Integration type: Lambda Function
+  - Use Lambda Proxy integration: ✅ checked
+  - Lambda Function Name: GetFileMetadata
+- Click **Save**
 
 ## Deploy the API
-Click “Actions” → “Deploy API”
-* Deployment stage:
-    ** Choose [New Stage]
-    ** Stage name: prod
-* Click Deploy
+- Click “Actions” → “Deploy API”
+- Deployment stage:
+  - Choose [New Stage]
+  - Stage name: prod
+- Click Deploy
 
-After deployment, note the Invoke URL
+### After deployment, note the Invoke URL
  Exanple:
-https://u2shohuema.execute-api.us-east-1.amazonaws.com/prod
+https://u2shohuema.execute-api.us-east-1.amazonaws.com/prod/metadata
 
 ---
 
@@ -210,19 +171,10 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 
 1.Trigger your Lambda function
 2. Lambda will store file metadata in DynamoDB table FileMetadata
+[upload_file_to_s3.py](https://github.com/OrireB/serverless-file-upload/commit/dcd21961c2f8bb03b2ac3dc8fae3a2ac2c9c1628#diff-534e5fe1f742a0660dd0fc9b7a7b3c8eb83fe0720ad48b02f0c3146004529cef)
 
-Example Python script:
-import boto3
 
-client = boto3.client('s3')
-
-client.upload_file(
-    Filename='Fierce.jpeg',
-    Bucket='success-guaranteed',
-    Key='Fierce.jpeg'
-)
-
-Go to DynamoDB → FileMetadata → Check if metadata is stored.
+- Go to DynamoDB → FileMetadata → Check if metadata is stored.
 
 ---
 
@@ -230,7 +182,7 @@ Go to DynamoDB → FileMetadata → Check if metadata is stored.
 > This web page makes it easy to view metadata without using Postman or the browser console.
 
 ##Create HTML File
-Save the code below as file-metadata.html in your VS Code or text editor:
+- Save the code below as file-metadata.html in your VS Code or text editor:
 
 ---
 
@@ -238,22 +190,22 @@ Save the code below as file-metadata.html in your VS Code or text editor:
 1. Upload the file-metadata.html to your success-guaranteed bucket
 2. Enable Static Website Hosting under bucket Properties
 3. Set:
-Index document: file-metadata.html
-4. Make the file public (Actions > Make public)
-5. Open the S3 website URL to view your HTML page live
+   - Index document: file-metadata.html
+5. Make the file public (Actions > Make public)
+6. Open the S3 website URL to view your HTML page live
 
 ---
 
 ###🧪 Expected Output
-If all is configured correctly:
-Now,
-Test the Full URL in the Browser
+- If all is configured correctly:
+- Now,
+- Test the Full URL in the Browser
 1. Paste this in your browser:
-https://abc123.execute-api.us-east-1.amazonaws.com/prod/metadata
+   - https://u2shohuema.execute-api.us-east-1.amazonaws.com/prod/metadata
 
 2. If everything is set up correctly, you’ll see:
-* A JSON array with metadata from your DynamoDB table
-You should see a JSON response like:
+   - A JSON array with metadata from your DynamoDB table
+   - You should see a JSON response like:
 
 ```python
 [
@@ -262,7 +214,7 @@ You should see a JSON response like:
     "filename": "Fierce.jpeg",
     "timestamp": "2025-06-18 18:30:00"
   }
-]
+]```
 
 ---
 
