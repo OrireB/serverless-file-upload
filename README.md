@@ -49,7 +49,7 @@ You'll create:
 
 **Or create via code:**
 
-```https://github.com/OrireB/serverless-file-upload/commit/72346e7604f417096312fa3238fc8597df41d6ba#diff-5ff7df0666e13dc29b7602c447b4fcb4ce476ba1537778e5153d80a8f277b799```
+[create_s3_bucket.py](https://github.com/OrireB/serverless-file-upload/commit/72346e7604f417096312fa3238fc8597df41d6ba#diff-5ff7df0666e13dc29b7602c447b4fcb4ce476ba1537778e5153d80a8f277b799) for working with AWS services in Python.
 
 ---
 
