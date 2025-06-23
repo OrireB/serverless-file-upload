@@ -214,7 +214,8 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
     "filename": "Fierce.jpeg",
     "timestamp": "2025-06-18 18:30:00"
   }
-]```
+]
+```
 
 ---
 
