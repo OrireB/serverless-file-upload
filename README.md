@@ -43,19 +43,13 @@ You'll create:
 > The S3 bucket is where your users (or scripts) will upload files. These uploads will automatically trigger the Lambda function.
 
 1. Go to AWS Console → **S3 > Create Bucket**
-2. Name it: `success-guaranteed` (or a unique name)
+2. Name: `success-guaranteed` (or a unique name)
 3. Leave default settings
 4. Click **Create Bucket**
 
 **Or create via code:**
 
-```python
-import boto3
-
-client = boto3.client('s3', region_name='us-east-1')
-
-response = client.create_bucket(Bucket='success-guaranteed')
-print("Bucket created:", response).
+```https://github.com/OrireB/serverless-file-upload/commit/72346e7604f417096312fa3238fc8597df41d6ba#diff-5ff7df0666e13dc29b7602c447b4fcb4ce476ba1537778e5153d80a8f277b799```
 
 ---
 
