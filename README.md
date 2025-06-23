@@ -238,13 +238,19 @@ Always double-check your **AWS Billing Dashboard** to ensure no lingering servic
 
 ![HTML Viewer](https://raw.githubusercontent.com/OrireB/serverless-file-upload/8a45be9aead4ec259c785f9a3737b43098549dc9/Functionong%20HTML.png)
 
+--
+
 **DynamoDB Table View**
 
 ![DynamoDB Table](https://github.com/OrireB/serverless-file-upload/blob/main/DynamoDB%20Table.png?raw=true)
 
+---
+
 **S3 Bucket File Upload**
 
-![S3 Bucket File Upload]([https://github.com/OrireB/serverless-file-upload/blob/main/DynamoDB%20Table.png?raw=true](https://raw.githubusercontent.com/OrireB/serverless-file-upload/8a45be9aead4ec259c785f9a3737b43098549dc9/S3%20bucket%20file%20upload.png))
+![S3 Bucket File Upload]([https://github.com/OrireB/serverless-file-upload/blob/main/DynamoDB%20Table.png?raw=true](https://raw.githubusercontent.com/OrireB/serverless-file-upload/8a45be9aead4ec259c785f9a3737b43098549dc9/S3%20bucket%20file%20upload.png)
+
+---
 
 **API Gateway JSON Response**
 
