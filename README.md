@@ -231,3 +231,22 @@ When you upload a file like Fierce.jpeg to the success-guaranteed bucket, AWS wi
 
 ### ✅ Final Tip
 Always double-check your **AWS Billing Dashboard** to ensure no lingering services are active that may incur charges.
+
+### 📸 Screenshots
+
+**HTML Viewer**
+
+![HTML Viewer](https://raw.githubusercontent.com/OrireB/serverless-file-upload/8a45be9aead4ec259c785f9a3737b43098549dc9/Functionong%20HTML.png)
+
+**DynamoDB Table View**
+
+![DynamoDB Table](https://github.com/OrireB/serverless-file-upload/blob/main/DynamoDB%20Table.png?raw=true)
+
+**S3 Bucket File Upload**
+
+![S3 Bucket File Upload]([https://github.com/OrireB/serverless-file-upload/blob/main/DynamoDB%20Table.png?raw=true](https://raw.githubusercontent.com/OrireB/serverless-file-upload/8a45be9aead4ec259c785f9a3737b43098549dc9/S3%20bucket%20file%20upload.png))
+
+**API Gateway JSON Response**
+
+![API Response](https://raw.githubusercontent.com/OrireB/serverless-file-upload/ac76d7050fca6840e326498a63bed528e3d5c9af/API%20JSON%20Response.png)
+
